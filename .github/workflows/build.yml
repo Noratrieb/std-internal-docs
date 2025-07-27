@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
   push:
     branches: ["main"]
+  schedule:
+    - cron: "0 0 * * *" # every day at 00:00 UTC, should be equivalent to the nightly.
 
 permissions:
   contents: read
@@ -41,3 +43,19 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  keep-alive:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+    steps:
+      # We don't often commit to this repository, and without any activity GitHub Actions will
+      # disable scheduled workflows after 60 days. It turns out that calling the "enable" API even
+      # before the workflow is disabled resets the 60 days counter though!
+      #
+      # Copied from https://github.com/rust-lang/generate-manifest-list/blob/5440ac3d7029fcb961854883c5ac267d50fed15b/.github/workflows/cron.yml
+      - name: Call the GitHub API
+        run: |
+          curl -X PUT "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/workflows/build.yml/enable" -H "Authorization: token ${GITHUB_TOKEN}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
