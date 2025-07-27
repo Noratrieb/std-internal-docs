@@ -10,8 +10,7 @@ cd rust
 
 ./configure \
     --set llvm.download-ci-llvm=true \
-    --set rust.download-rustc=true \
-    --set rust.llvm-bitcode-linker=false
+    --set rust.download-rustc=true
 
 targets=(x86_64-unknown-linux-gnu x86_64-pc-windows-msvc aarch64-apple-darwin)
 
