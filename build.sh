@@ -15,7 +15,7 @@ cd rust
 targets=(x86_64-unknown-linux-gnu x86_64-pc-windows-msvc aarch64-apple-darwin)
 
 # bootstrap uses this var to perform CI detection :(
-export CI=
+unset CI
 
 for target in "${targets[@]}"; do
     echo "Building $target"
