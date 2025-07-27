@@ -4,6 +4,8 @@ set -euxo pipefail
 
 root=$(realpath "$PWD")
 
+cp index.html "$root/www-root"
+
 # use a higher depth because bootstrap might be broken with depth 1?
 git clone --depth 50 https://github.com/rust-lang/rust.git
 cd rust
@@ -36,5 +38,3 @@ for target in "${targets[@]}"; do
 
     cp -rT "./build/$target/doc/" "$root/www-root/$target"
 done
-
-cp index.html "$root/www-root"

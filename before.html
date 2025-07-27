@@ -24,6 +24,8 @@
   elems.parentNode.insertBefore(info, elems);
 
   document.getElementById("target-select").addEventListener("change", (e) => {
-    alert(e.target.value);
+    // not very clever, just change the target at all.
+    // we could try to substitute the path or something better.
+    window.location.pathname = `${e.target.value}/std`;
   });
 </script>
