@@ -10,13 +10,17 @@ cd rust
 
 ./configure \
     --set llvm.download-ci-llvm=true \
-    --set rust.download-rustc=true
+    --set rust.download-rustc=true \
+    --set rust.llvm-bitcode-linker=false
 
 targets=(x86_64-unknown-linux-gnu x86_64-pc-windows-msvc aarch64-apple-darwin)
 
 # bootstrap uses this var to perform CI detection :(
 unset CI
 unset GITHUB_ACTIONS
+
+# sanity checks make no sense for doc
+export BOOTSTRAP_SKIP_TARGET_SANITY=1
 
 for target in "${targets[@]}"; do
     echo "Building $target"
