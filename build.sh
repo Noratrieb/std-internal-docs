@@ -10,9 +10,11 @@ cd rust
 
 ./configure \
     --set llvm.download-ci-llvm=true \
-    --set rust.download-rustc=true
+    --set rust.llvm-tools=false \
+    --set rust.llvm-bitcode-linker=false \
+    --set build.optimized-compiler-builtins=false # necessary to make cross-doc work for all targets
 
-targets=(x86_64-unknown-linux-gnu x86_64-pc-windows-gnu aarch64-apple-darwin)
+targets=(x86_64-unknown-linux-gnu x86_64-pc-windows-msvc aarch64-apple-darwin)
 
 # bootstrap uses this var to perform CI detection :(
 unset CI
@@ -27,10 +29,10 @@ for target in "${targets[@]}"; do
     export RUSTDOCFLAGS="--document-private-items \
         --document-hidden-items \
         --html-before-content=$root/before.html \
-        --extend-css=$root/style.css"
+        --extend-css=$root/style.css \
+        --cap-lints=warn"
 
-    ./x doc library --target "$target"
+    ./x doc library --target "$target" --stage 1
 
-    mkdir "$root/www-root/$target"
-    cp -r "./build/$target/doc" "$root/www-root/$target"
+    cp -rT "./build/$target/doc/" "$root/www-root/$target"
 done
