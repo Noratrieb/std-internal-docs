@@ -1,0 +1,29 @@
+<script type="module">
+  const info = document.createElement("div");
+  info.classList.add("_internal-info");
+  info.innerHTML = `
+    <p>⚠ Internal Docs ⚠</p>
+    <p>This website was built by <a href="https://github.com/Noratrieb/std-internal-docs">Noratrieb</a>
+    
+    <div>
+        <div>
+            <label for="target-select">
+                Select Target
+            </label>
+        </div>
+        <div>
+            <select id="target-select">
+                <option>x86_64-unknown-linux-gnu</option>
+                <option>x86_64-pc-windows-msvc</option>
+                <option>aarch64-apple-darwin</option>
+            </select>
+        </div>
+    </div>
+  `;
+  const elems = document.querySelector(".sidebar-elems");
+  elems.parentNode.insertBefore(info, elems);
+
+  document.getElementById("target-select").addEventListener("change", (e) => {
+    alert(e.target.value);
+  });
+</script>

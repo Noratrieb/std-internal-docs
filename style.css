@@ -1,0 +1,9 @@
+._internal-info {
+    background-color: red;
+    color: white;
+    font-weight: 600;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
