@@ -36,3 +36,5 @@ for target in "${targets[@]}"; do
 
     cp -rT "./build/$target/doc/" "$root/www-root/$target"
 done
+
+cp index.html "$root/www-root"
