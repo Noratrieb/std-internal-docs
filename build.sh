@@ -7,9 +7,12 @@ root=$(realpath "$PWD")
 cp index.html "$root/www-root"
 
 # use a higher depth because bootstrap might be broken with depth 1?
-git clone --depth 50 https://github.com/rust-lang/rust.git
+if [ ! -d 'rust' ]; then
+    git clone --depth 50 https://github.com/rust-lang/rust.git
+fi
 cd rust
 
+rm -f bootstrap.toml
 ./configure \
     --set llvm.download-ci-llvm=true \
     --set rust.llvm-tools=false \
