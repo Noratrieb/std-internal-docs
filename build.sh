@@ -24,7 +24,6 @@ targets=(
   x86_64-pc-windows-msvc
   aarch64-apple-darwin
   wasm32-unknown-unknown
-  wasm32-wasip1
   aarch64-linux-android
   aarch64-apple-ios
 )
