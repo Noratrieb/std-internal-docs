@@ -19,7 +19,15 @@ rm -f bootstrap.toml
     --set rust.llvm-bitcode-linker=false \
     --set build.optimized-compiler-builtins=false # necessary to make cross-doc work for all targets
 
-targets=(x86_64-unknown-linux-gnu x86_64-pc-windows-msvc aarch64-apple-darwin)
+targets=(
+  x86_64-unknown-linux-gnu
+  x86_64-pc-windows-msvc
+  aarch64-apple-darwin
+  wasm32-unknown-unknown
+  wasm32-wasip1
+  aarch64-linux-android
+  aarch64-apple-ios
+)
 
 # bootstrap uses this var to perform CI detection :(
 unset CI
