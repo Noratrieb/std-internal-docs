@@ -17,8 +17,9 @@ rm -f bootstrap.toml
     --set llvm.download-ci-llvm=true \
     --set rust.llvm-tools=false \
     --set rust.llvm-bitcode-linker=false \
-    --set build.warnings=false \
     --set build.optimized-compiler-builtins=false # necessary to make cross-doc work for all targets
+
+echo "build.warnings = false" >> config.toml
 
 targets=(
   x86_64-unknown-linux-gnu
