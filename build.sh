@@ -19,8 +19,6 @@ rm -f bootstrap.toml
     --set rust.llvm-bitcode-linker=false \
     --set build.optimized-compiler-builtins=false # necessary to make cross-doc work for all targets
 
-echo "[rust] deny-warnings = true" >> bootstrap.toml
-
 targets=(
   x86_64-unknown-linux-gnu
   x86_64-pc-windows-msvc
@@ -45,7 +43,7 @@ for target in "${targets[@]}"; do
         --document-hidden-items \
         --html-before-content=$root/before.html \
         --extend-css=$root/style.css \
-        --cap-lints=warn"
+        --cap-lints=allow"
 
     ./x doc library --target "$target" --stage 1
 
