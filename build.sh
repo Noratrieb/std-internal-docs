@@ -19,7 +19,7 @@ rm -f bootstrap.toml
     --set rust.llvm-bitcode-linker=false \
     --set build.optimized-compiler-builtins=false # necessary to make cross-doc work for all targets
 
-echo "rust.deny-warnings = true" >> bootstrap.toml
+echo "[rust] deny-warnings = true" >> bootstrap.toml
 
 targets=(
   x86_64-unknown-linux-gnu
