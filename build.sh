@@ -9,6 +9,11 @@ cp index.html "$root/www-root"
 # use a higher depth because bootstrap might be broken with depth 1?
 if [ ! -d 'rust' ]; then
     git clone --depth 50 https://github.com/rust-lang/rust.git
+    pushd rust
+    git ls-files -z -- ':(glob)library/**/*.rs' \
+    | xargs -0 sed -i'' -E 's@^[[:space:]]*#!?\[doc\(cfg.*$@// & // commented out for std.noratrieb.dev@'
+    git apply ../disable-cfg-doc.patch
+    popd
 fi
 cd rust
 
@@ -43,7 +48,9 @@ for target in "${targets[@]}"; do
         --document-hidden-items \
         --html-before-content=$root/before.html \
         --extend-css=$root/style.css \
-        --cap-lints=allow"
+        --cap-lints=allow \
+        --generate-link-to-definition \
+        --generate-macro-expansion"
 
     ./x doc library --target "$target" --stage 1
 
