@@ -11,18 +11,24 @@ if [ ! -d 'rust' ]; then
     git clone --depth 50 https://github.com/rust-lang/rust.git
     pushd rust
     git ls-files -z -- ':(glob)library/**/*.rs' \
-    | xargs -0 sed -i'' -E 's@^[[:space:]]*#!?\[doc\(cfg.*$@// & // commented out for std.noratrieb.dev@'
-    git apply ../disable-cfg-doc.patch
+    | xargs -0 sed -i'' -E 's@^ *#!?\[doc\(cfg.*$@// & // commented out for std.noratrieb.dev@'
+    git ls-files -z -- ':(glob)src/librustdoc/**/*.rs' \
+    | xargs -0 sed -i'' -E 's@^ *cfgs\.push\("doc".*$@// & // commented out for std.noratrieb.dev@'
+    git --no-pager diff # show diff for easier debugging in case of deploy failures
     popd
 fi
 cd rust
 
 rm -f bootstrap.toml
-./configure \
-    --set llvm.download-ci-llvm=true \
-    --set rust.llvm-tools=false \
-    --set rust.llvm-bitcode-linker=false \
+configure_args=(
+    --set llvm.download-ci-llvm=true
+    --set rust.llvm-tools=false
+    --set rust.llvm-bitcode-linker=false
     --set build.optimized-compiler-builtins=false # necessary to make cross-doc work for all targets
+    --set change-id=ignore
+    --set rust.deny-warnings=false
+)
+./configure "${configure_args[@]}"
 
 targets=(
   x86_64-unknown-linux-gnu
@@ -48,7 +54,6 @@ for target in "${targets[@]}"; do
         --document-hidden-items \
         --html-before-content=$root/before.html \
         --extend-css=$root/style.css \
-        --cap-lints=allow \
         --generate-link-to-definition \
         --generate-macro-expansion"
 
