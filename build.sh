@@ -54,7 +54,6 @@ for target in "${targets[@]}"; do
         --document-hidden-items \
         --html-before-content=$root/before.html \
         --extend-css=$root/style.css \
-        --generate-link-to-definition \
         --generate-macro-expansion"
 
     ./x doc library --target "$target" --stage 1
